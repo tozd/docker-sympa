@@ -1,0 +1,20 @@
+#!/bin/bash -e
+
+chown :sympa /etc/sympa/*
+chown sympa:sympa /var/lib/sympa /var/spool/sympa
+chown mail /var/spool/nullmailer
+chmod 771 /var/spool/sympa
+chmod 750 /etc/sympa/includes
+
+# If directory is empty, we restore it from our copy of initial files
+[[ $(ls -A /var/lib/sympa | grep -v placeholder) ]] || cp -a /var/lib/sympa.orig/* /var/lib/sympa/
+[[ $(ls -A /var/spool/sympa | grep -v placeholder) ]] || cp -a /var/spool/sympa.orig/* /var/spool/sympa/
+[[ $(ls -A /var/spool/nullmailer | grep -v placeholder) ]] || cp -a /var/spool/nullmailer.orig/* /var/spool/nullmailer/
+
+# If installation time cookie file exists, remove it, we are using one mapped from outside
+if [ -e /etc/sympa/cookie ]; then
+  rm /etc/sympa/cookie /etc/sympa/cookies.history
+fi
+
+# All output is logged to /var/log/sympa.log so we redirect stdout and stderr to /dev/null
+exec chpst -u sympa:sympa /usr/lib/sympa/bin/sympa.pl --foreground > /dev/null 2>&1

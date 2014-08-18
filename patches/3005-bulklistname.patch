@@ -1,0 +1,13 @@
+--- /usr/share/sympa/lib/Bulk.pm.orig	2012-06-14 16:41:37.000000000 +0200
++++ /usr/share/sympa/lib/Bulk.pm	2012-06-14 17:56:08.000000000 +0200
+@@ -532,8 +532,8 @@
+ 	     do_log('err','Duplicate message not stored in bulmailer_table');
+ 	     
+ 	 }else {
+-	    my $statement = sprintf "INSERT INTO bulkmailer_table (messagekey_bulkmailer,messageid_bulkmailer,packetid_bulkmailer,receipients_bulkmailer,returnpath_bulkmailer,robot_bulkmailer,listname_bulkmailer, verp_bulkmailer, merge_bulkmailer, priority_message_bulkmailer, priority_packet_bulkmailer, reception_date_bulkmailer, delivery_date_bulkmailer) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", $dbh->quote($messagekey),$dbh->quote($msg_id),$dbh->quote($packetid),$dbh->quote($rcptasstring),$dbh->quote($from),$dbh->quote($robot),$dbh->quote($listname),$verp,$merge,$priority_message, $priority_for_packet, $current_date,$delivery_date;
+-	    unless ($sth = $dbh->do($statement)) {
++	    my $statement = "INSERT INTO bulkmailer_table (messagekey_bulkmailer,messageid_bulkmailer,packetid_bulkmailer,receipients_bulkmailer,returnpath_bulkmailer,robot_bulkmailer,listname_bulkmailer, verp_bulkmailer, merge_bulkmailer, priority_message_bulkmailer, priority_packet_bulkmailer, reception_date_bulkmailer, delivery_date_bulkmailer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
++	    unless ($sth = $dbh->do($statement, undef, $messagekey, $msg_id, $packetid, $rcptasstring, $from, $robot, ref $listname ? $listname->{'name'} : $listname, $verp, $merge, $priority_message, $priority_for_packet, $current_date, $delivery_date)) {
+ 		do_log('err','Unable to add packet in bulkmailer_table "%s"; error : %s', $statement, $dbh->errstr);
+ 		return undef;
+ 	    }

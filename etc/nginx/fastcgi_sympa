@@ -1,0 +1,8 @@
+# Settings for FastCGI Perl daemon
+include		fastcgi_host;
+include		fastcgi_params;
+fastcgi_split_path_info ^(/sympa|/lists)(.*)$;
+fastcgi_param	SCRIPT_NAME	$fastcgi_script_name;
+fastcgi_param	PATH_INFO	$fastcgi_path_info;
+fastcgi_param	SERVER_NAME	$host;
+fastcgi_intercept_errors	off;

@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+chown :sympa /etc/sympa/*
+chown sympa:sympa /var/lib/sympa /var/spool/sympa
+chown mail /var/spool/nullmailer
+chmod 771 /var/spool/sympa
+
+export FCGI_SOCKET_PATH="$FCGI_HOST:$FCGI_PORT"
+echo fastcgi_pass "$FCGI_HOST:$FCGI_PORT;" > /etc/nginx/fastcgi_host
+
+exec chpst -u sympa:sympa /usr/lib/cgi-bin/sympa/wwsympa.fcgi 2>&1

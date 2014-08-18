@@ -1,0 +1,42 @@
+--- /usr/lib/cgi-bin/sympa/wwsympa.fcgi.orig	2011-05-17 08:26:54.000000000 +0200
++++ /usr/lib/cgi-bin/sympa/wwsympa.fcgi	2011-05-17 02:20:37.000000000 +0200
+@@ -1023,7 +1023,9 @@
+       ## In case HTTP_HOST does not match cookie_domain
+     my $http_host = &get_header_field('HTTP_HOST');
+      $http_host =~ s/:\d+$//; ## suppress port
+-     unless (($http_host =~ /$param->{'cookie_domain'}$/) || 
++	 my $cookie_host = $param->{'cookie_domain'};
++	 $cookie_host =~ s/^\.//; ## suppress leading dot
++     unless (($http_host =~ /$param->{'cookie_domain'}$/) || ($http_host eq $cookie_host) ||
+              ($param->{'cookie_domain'} eq 'localhost')) {
+          &wwslog('notice', 'Cookie_domain(%s) does NOT match HTTP_HOST; setting cookie_domain to %s', $param->{'cookie_domain'}, $http_host);
+          $param->{'cookie_domain'} = $http_host;
+@@ -3112,7 +3114,7 @@
+ 	    $in{'action'} = 'redirect';
+ 	    $param->{'redirect_to'} = $redirect_url;
+ 	    $param->{'bypass'} = 'extreme';
+-	    $session->set_cookie('localhost','session');
++	    $session->set_cookie($param->{'cookie_domain'},'session');
+ 	    print "Location: $param->{'redirect_to'}\n\n";
+ 	}
+ 	
+@@ -3559,7 +3561,7 @@
+     # because of some bug Sympa did redirection to un empty URL. Next line should prevent it.
+     $redirect_to ||= $param->{'base_url'}.$param->{'path_cgi'};
+ 
+-    $session->set_cookie('localhost','session');
++    $session->set_cookie($param->{'cookie_domain'},'session');
+     print "Location: $redirect_to\n\n";
+     $param->{'bypass'} = 'extreme';
+     return 1;
+--- /usr/share/sympa/lib/SympaTransport.pm.orig	2012-02-03 00:52:51.000000000 +0100
++++ /usr/share/sympa/lib/SympaTransport.pm	2012-02-03 16:34:30.000000000 +0100
+@@ -55,7 +55,7 @@
+     if (my $response = $_[0]) {
+ 	if (defined $ENV{'SESSION_ID'}) {
+ 	    my $expire = $main::param->{'user'}{'cookie_delay'} || $main::wwsconf->{'cookie_expire'};
+-	    my $cookie = &cookielib::set_cookie_soap($ENV{'SESSION_ID'}, $ENV{'SERVER_NAME'}, $expire);
++	    my $cookie = &cookielib::set_cookie_soap($ENV{'SESSION_ID'}, $main::param->{'cookie_domain'}, $expire);
+ 	
+ 	    $response->headers->push_header('Set-Cookie2' => $cookie);
+ 	  }

@@ -1,0 +1,30 @@
+server {
+    listen 80 default_server;
+    server_name _;
+
+    root /var/lib/sympa/static_content;
+
+    location / {
+        return 404;
+    }
+
+    location /sympa {
+        include fastcgi_sympa;
+    }
+
+    location /lists {
+        include fastcgi_sympa;
+    }
+
+    location /sympa-static/ {
+        alias /var/lib/sympa/static_content/;
+    }
+
+    location /lists-static/ {
+        alias /var/lib/sympa/static_content/;
+    }
+
+    location ~ /\. {
+        return 403;
+    }
+}

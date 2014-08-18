@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+# All output is logged to /var/log/sympa.log so we redirect stdout and stderr to /dev/null
+exec chpst -u sympa:sympa /usr/lib/sympa/bin/bounced.pl --foreground > /dev/null 2>&1
