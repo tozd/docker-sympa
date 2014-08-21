@@ -1,4 +1,7 @@
 #!/bin/bash -e
 
+# Sleep so that main Sympa process can start and prepare everything
+sleep 10
+
 # All output is logged to /var/log/sympa.log so we redirect stdout and stderr to /dev/null
 exec chpst -u sympa:sympa /usr/lib/sympa/bin/bulk.pl --foreground > /dev/null 2>&1

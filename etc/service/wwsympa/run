@@ -1,9 +1,7 @@
 #!/bin/bash -e
 
-chown :sympa /etc/sympa/*
-chown sympa:sympa /var/lib/sympa /var/spool/sympa
-chown mail /var/spool/nullmailer
-chmod 771 /var/spool/sympa
+# Sleep so that main Sympa process can start and prepare everything
+sleep 10
 
 export FCGI_SOCKET_PATH="$FCGI_HOST:$FCGI_PORT"
 echo fastcgi_pass "$FCGI_HOST:$FCGI_PORT;" > /etc/nginx/fastcgi_host

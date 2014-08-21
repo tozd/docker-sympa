@@ -1,16 +1,16 @@
---- /usr/share/sympa/lib/confdef.pm.orig	(revision 10550)
-+++ /usr/share/sympa/lib/confdef.pm	(working copy)
-@@ -1380,6 +1380,10 @@
- 	default => 'off',
+--- /usr/share/sympa/lib/confdef.pm.orig	2014-08-18 21:55:45.902358089 -0700
++++ /usr/share/sympa/lib/confdef.pm	2014-08-18 21:56:47.970665869 -0700
+@@ -485,6 +485,10 @@
+ 	'default' => 'off',
      },
      {
-+        name    => 'personalize_recipient',
-+        default => 'off',
++        'name'    => 'personalize_recipient',
++        'default' => 'off',
 +    },
 +    {
-         name    => 'use_blacklist',
-         default => 'send,subscribe',
-     },
+         'name'    => 'automatic_list_removal',
+         'default' => 'none', ## Can be 'if_empty'
+         'vhost'   => '1',
 --- /usr/share/sympa/lib/List.pm.orig	(revision 10550)
 +++ /usr/share/sympa/lib/List.pm	(working copy)
 @@ -270,7 +270,7 @@
@@ -35,21 +35,15 @@
  	    'visibility' => {'scenario' => 'visibility',
  			     'synonym' => {'public' => 'noconceal',
  					   'private' => 'conceal'},
---- /usr/share/sympa/lib/Bulk.pm.orig	(revision 10550)
-+++ /usr/share/sympa/lib/Bulk.pm	(working copy)
-@@ -257,12 +257,32 @@
-     my $bulk = shift;
-     my $data = shift;
- 
-+    my $list = List->new($bulk->{'listname'}, $bulk->{'robot'});
-+    my $personalize_recipient = ($list->{'admin'}{'personalize_recipient'} eq 'on');
-+
-     ## Test MIME::Entity
-     unless (defined $entity && ref($entity) eq 'MIME::Entity') {
- 	&do_log('err', 'echec entity');
- 	return undef;
+--- /usr/share/sympa/lib/Bulk.pm.orig	2014-08-18 21:59:09.163366005 -0700
++++ /usr/share/sympa/lib/Bulk.pm	2014-08-18 22:24:12.802822151 -0700
+@@ -296,6 +296,26 @@
+ 	return $entity;
      }
  
++    my $list = new List($bulk->{'listname'}, $bulk->{'robot'});
++    my $personalize_recipient = ($list->{'admin'}{'personalize_recipient'} eq 'on');
++
 +    if ($entity->head && $entity->head->get('To') && $personalize_recipient) {
 +      my $user_details;
 +      $user_details->{'email'} = $rcpt;
@@ -67,6 +61,6 @@
 +      }
 +    }
 +
-     my $body;
-     if(defined $entity->bodyhandle){
- 	$body      = $entity->bodyhandle->as_string;
+     if ($entity->parts) {
+ 	foreach my $part ($entity->parts) {
+ 	    unless (_merge_msg($part, $rcpt, $bulk, $data)) {

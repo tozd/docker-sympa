@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+mkdir -p /var/log/sympa/nullmailer
+chown nobody:nogroup /var/log/sympa/nullmailer
+
+exec chpst -u nobody:nogroup svlogd -tt /var/log/sympa/nullmailer
