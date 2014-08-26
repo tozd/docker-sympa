@@ -1,4 +1,4 @@
-#/bin/bash -e
+#!/bin/bash -e
 
 mkdir -p /srv/var/log/sympa
 mkdir -p /srv/sympa/etc/includes
