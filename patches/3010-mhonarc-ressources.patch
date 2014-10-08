@@ -1,0 +1,11 @@
+--- /usr/share/sympa/default/mhonarc-ressources.tt2.orig	2012-02-03 00:52:48.000000000 +0100
++++ /usr/share/sympa/default/mhonarc-ressources.tt2	2012-02-03 10:26:37.000000000 +0100
+@@ -94,7 +94,7 @@
+ <DECODEHEADS>
+ 
+ <MIMEARGS>
+-text/plain; asis=us-ascii:iso-8859-1:iso-8859-2 nonfixed quote htmlcheck maxwidth=78
++text/plain; asis=us-ascii:iso-8859-1:iso-8859-2 nonfixed disableflowed quote htmlcheck maxwidth=78
+ text/html; asis=us-ascii:iso-8859-1:iso-8859-2 allownoncidurls
+ m2h_external::filter; subdir usename
+ </MIMEARGS>
