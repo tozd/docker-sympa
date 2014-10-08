@@ -31,6 +31,7 @@ RUN \
  for patch in patches/*; do patch --prefix=./patches/ -p0 --force "--input=$patch" || exit 1; done && \
  rm -rf patches && \
  apt-get purge patch --yes --force-yes && \
- apt-get autoremove --yes --force-yes
+ apt-get autoremove --yes --force-yes && \
+ rm -rf /usr/lib/sympa/locale/en_US /usr/lib/sympa/locale/en
 
 COPY ./etc /etc
