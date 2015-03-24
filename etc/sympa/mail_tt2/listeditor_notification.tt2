@@ -9,7 +9,7 @@ Subject: [% FILTER qencode %][%|loc(list.name)%]Shared document to be approved f
 
 	from %3
 
-To moderate these document: 
+To moderate these documents: 
 %4/modindex/%1[% END %]
 
 [% ELSE %]
