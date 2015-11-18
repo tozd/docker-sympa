@@ -1,4 +1,4 @@
-FROM cloyne/nginx
+FROM tozd/nginx
 
 MAINTAINER Mitar <mitar.docker@tnode.com>
 
@@ -13,7 +13,18 @@ RUN apt-get update -q -q && \
  apt-get install openssh-server --yes --force-yes && \
  echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && \
  dpkg-reconfigure locales && \
- apt-get install -t wheezy-backports sympa --no-install-recommends --yes --force-yes && \
+ apt-get install build-essential ubuntu-dev-tools equivs --no-install-recommends --yes --force-yes && \
+ backportpackage --dont-sign --source=vivid --workdir=/tmp/backport sympa && \
+ cd /tmp/backport && \
+ dpkg-source -x sympa_6.1.23~dfsg-2~ubuntu14.04.1.dsc && \
+ cd /tmp/backport/sympa-6.1.23~dfsg && \
+ mk-build-deps --install --remove --tool 'apt-get --no-install-recommends --force-yes --yes' && \
+ dpkg-buildpackage && \
+ cd /tmp/backport && \
+ dpkg --unpack sympa_6.1.23~dfsg-2~ubuntu14.04.1_amd64.deb && \
+ apt-get install --yes --force-yes --fix-broken && \
+ apt-get purge build-essential sympa-build-deps ubuntu-dev-tools equivs --yes --force-yes && \
+ apt-get autoremove --yes --force-yes && \
  apt-get install libglib2.0-data shared-mime-info libio-socket-ip-perl libio-socket-inet6-perl krb5-locales libmime-types-perl libsasl2-modules libhtml-form-perl libhttp-daemon-perl libxml-sax-expat-perl xml-core libfile-nfslock-perl libsoap-lite-perl libcrypt-ciphersaber-perl libmail-dkim-perl --yes --force-yes && \
  mkdir -p /var/run/sympa && \
  chown sympa:sympa /var/run/sympa && \

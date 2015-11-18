@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-chown :sympa /etc/sympa/*
-chown sympa:sympa /var/lib/sympa /var/spool/sympa
+chown -Rh :sympa /etc/sympa/*
+chown -Rh sympa:sympa /var/lib/sympa /var/spool/sympa
 chmod 771 /var/spool/sympa
 chmod 750 /etc/sympa/includes
 chmod 640 /etc/sympa/includes/*
-chown :sympa /etc/sympa/includes/*
+chown -Rh :sympa /etc/sympa/includes/*
 
 # If directory is empty, we restore it from our copy of initial files
 [[ $(ls -A /var/lib/sympa | grep -v placeholder) ]] || cp -a /var/lib/sympa.orig/* /var/lib/sympa/
