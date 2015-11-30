@@ -1,13 +1,18 @@
 FROM tozd/nginx
 
-MAINTAINER Mitar <mitar.docker@tnode.com>
-
 ENV FCGI_HOST 127.0.0.1
 ENV FCGI_PORT 9000
 
+VOLUME /var/log/sympa
+VOLUME /etc/sympa/includes
+VOLUME /etc/sympa/shared
+VOLUME /var/spool/sympa
+VOLUME /var/lib/sympa
+
 COPY ./etc/apt /etc/apt
 
-# We additionally install recommended Sympa packages which are libraries
+# We additionally install recommended Sympa packages which are libraries.
+
 RUN apt-get update -q -q && \
  apt-get install nullmailer rsyslog locales --no-install-recommends --yes --force-yes && \
  apt-get install openssh-server --yes --force-yes && \

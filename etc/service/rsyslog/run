@@ -1,6 +1,8 @@
 #!/bin/bash -e
 
-# A stale PID file can prevent rsyslogd from running
+# A stale PID file can prevent rsyslogd from running.
 rm -f /var/run/rsyslogd.pid
+
+# No need to create any extra directory because logging for Sympa is already configured.
 
 exec /usr/sbin/rsyslogd -n -c5 2>&1
