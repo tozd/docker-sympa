@@ -17,7 +17,7 @@ COPY ./etc/apt /etc/apt
 # We additionally install recommended Sympa packages which are libraries.
 
 RUN apt-get update -q -q && \
- apt-get install nullmailer rsyslog locales postgresql-client-9.3 --no-install-recommends --yes --force-yes && \
+ apt-get install nullmailer rsyslog locales --no-install-recommends --yes --force-yes && \
  apt-get install openssh-server --yes --force-yes && \
  echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && \
  dpkg-reconfigure locales && \
@@ -41,7 +41,8 @@ RUN apt-get update -q -q && \
  mkdir -m 700 /var/spool/sympa.orig /var/spool/nullmailer.orig /var/lib/sympa.orig && \
  mv /var/spool/sympa/* /var/spool/sympa.orig/ && \
  mv /var/spool/nullmailer/* /var/spool/nullmailer.orig/ && \
- mv /var/lib/sympa/* /var/lib/sympa.orig/
+ mv /var/lib/sympa/* /var/lib/sympa.orig/ && \
+ apt-get install postgresql-client-9.3 --yes --force-yes
 
 COPY ./patches patches
 
