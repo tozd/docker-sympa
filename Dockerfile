@@ -10,6 +10,7 @@ VOLUME /etc/sympa/includes
 VOLUME /etc/sympa/shared
 VOLUME /var/spool/sympa
 VOLUME /var/lib/sympa
+VOLUME /var/spool/nullmailer
 
 COPY ./etc/apt /etc/apt
 
