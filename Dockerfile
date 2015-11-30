@@ -2,6 +2,8 @@ FROM tozd/nginx
 
 ENV FCGI_HOST 127.0.0.1
 ENV FCGI_PORT 9000
+ENV ADMINADDR admin@example.com
+ENV REMOTES mail.example.com
 
 VOLUME /var/log/sympa
 VOLUME /etc/sympa/includes
