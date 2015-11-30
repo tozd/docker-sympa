@@ -16,6 +16,7 @@ if [ -e /etc/sympa/cookie ]; then
     rm /etc/sympa/cookie /etc/sympa/cookies.history
 fi
 
+# So that Postfix can connect into us to deliver e-mail to mailing lists.
 if [ -e /etc/sympa/shared ]; then
     # If SSH keys do not exist, create them
     if [ ! -e /etc/sympa/shared/id_rsa ]; then
