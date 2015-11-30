@@ -23,7 +23,7 @@ if [ -e /etc/sympa/shared ]; then
     fi
 
     rm -f /etc/sympa/shared/known_hosts
-    echo -n 'sympa.server2.docker ' > /etc/sympa/shared/known_hosts
+    echo -n 'sympa ' > /etc/sympa/shared/known_hosts
     cat /etc/ssh/ssh_host_rsa_key.pub >> /etc/sympa/shared/known_hosts
 
     mkdir -p /var/lib/sympa/.ssh
