@@ -13,7 +13,7 @@ PostgreSQL database, by default, running in a contained named `pgsql`. You can l
 or use [tozd/hosts](https://github.com/tozd/docker-hosts). Use `REMOTES` environment variable to
 specify the container or server used for sending e-mails.
 
-**The image contains only example values and cannot run without extending.**
+**The image contains only example values and cannot run without extending (or mounting necessary files into it).**
 
 You should provide two volumes, `/etc/sympa/includes` and `/etc/sympa/shared`.
 
