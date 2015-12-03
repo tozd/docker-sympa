@@ -21,7 +21,7 @@ You should provide two volumes, `/etc/sympa/includes` and `/etc/sympa/shared`.
  * `database` – a password for `sympa` user with permissions over `sympa` PostgreSQL database at (by default) `pgsql` container
  * `cookie` – a randomly generated string used for cookie string secret
 
-`/etc/sympa/shared` is a volume shared with [cloyne/postfix](https://github.com/cloyne/docker-postfix)
+`/etc/sympa/shared` is a volume shared with (for example) `cloyne/postfix`
 container to provide necessary SSH keys for communication between containers.
 
 When extending the image you should override files in the `/etc/sympa/conf.d` directory
