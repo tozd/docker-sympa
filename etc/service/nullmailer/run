@@ -6,18 +6,22 @@ chown mail /var/spool/nullmailer
 [[ $(ls -A /var/spool/nullmailer | grep -v placeholder) ]] || cp -a /var/spool/nullmailer.orig/* /var/spool/nullmailer/
 
 if [ ! -p /var/spool/nullmailer/trigger ]; then
-    rm -f /var/spool/nullmailer/trigger
-    mkfifo /var/spool/nullmailer/trigger
+  rm -f /var/spool/nullmailer/trigger
+  mkfifo /var/spool/nullmailer/trigger
 fi
 chown mail:root /var/spool/nullmailer/trigger
 chmod 0622 /var/spool/nullmailer/trigger
 
-if [ "$ADMINADDR" ]; then
-    echo "$ADMINADDR" > /etc/nullmailer/adminaddr
+if [ -n "$ADMINADDR" ]; then
+  echo "$ADMINADDR" > /etc/nullmailer/adminaddr
 fi
 
-if [ "$REMOTES" ]; then
-    echo "$REMOTES" > /etc/nullmailer/remotes
+if [ -n "$REMOTES" ]; then
+  echo "$REMOTES" > /etc/nullmailer/remotes
+fi
+
+if [ -n "$HOSTNAME" ]; then
+  echo "$HOSTNAME" > /etc/mailname
 fi
 
 exec chpst -u mail:mail /usr/sbin/nullmailer-send 2>&1
