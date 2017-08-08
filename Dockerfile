@@ -2,6 +2,7 @@ FROM tozd/nginx
 
 ENV FCGI_HOST 127.0.0.1
 ENV FCGI_PORT 9000
+ENV FCGI_SOAP_PORT 10000
 ENV ADMINADDR admin@example.com
 ENV REMOTES mail.example.com
 
@@ -12,10 +13,11 @@ VOLUME /var/spool/sympa
 VOLUME /var/lib/sympa
 VOLUME /var/spool/nullmailer
 
+ENV VERSION=6.1.23
+
 COPY ./etc/apt /etc/apt
 
 # We additionally install recommended Sympa packages which are libraries.
-
 RUN apt-get update -q -q && \
  apt-get install nullmailer rsyslog locales --no-install-recommends --yes --force-yes && \
  apt-get install openssh-server --yes --force-yes && \
@@ -24,12 +26,12 @@ RUN apt-get update -q -q && \
  apt-get install build-essential ubuntu-dev-tools equivs --no-install-recommends --yes --force-yes && \
  backportpackage --dont-sign --source=vivid --workdir=/tmp/backport sympa && \
  cd /tmp/backport && \
- dpkg-source -x sympa_6.1.23~dfsg-2~ubuntu14.04.1.dsc && \
- cd /tmp/backport/sympa-6.1.23~dfsg && \
+ dpkg-source -x sympa_${VERSION}~dfsg-2~ubuntu14.04.1.dsc && \
+ cd /tmp/backport/sympa-${VERSION}~dfsg && \
  mk-build-deps --install --remove --tool 'apt-get --no-install-recommends --force-yes --yes' && \
  dpkg-buildpackage && \
  cd /tmp/backport && \
- dpkg --unpack sympa_6.1.23~dfsg-2~ubuntu14.04.1_amd64.deb && \
+ dpkg --unpack sympa_${VERSION}~dfsg-2~ubuntu14.04.1_amd64.deb && \
  apt-get install --yes --force-yes --fix-broken && \
  apt-get purge build-essential sympa-build-deps ubuntu-dev-tools equivs --yes --force-yes && \
  apt-get autoremove --yes --force-yes && \
@@ -52,6 +54,10 @@ RUN \
  rm -rf patches && \
  apt-get purge patch --yes --force-yes && \
  apt-get autoremove --yes --force-yes && \
- rm -rf /usr/lib/sympa/locale/en_US /usr/lib/sympa/locale/en
+rm -rf /usr/lib/sympa/locale/en_US /usr/lib/sympa/locale/en
+
+# For sympasoap fastcgi service
+RUN apt-get install spawn-fcgi
 
 COPY ./etc /etc
+
