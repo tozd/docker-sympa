@@ -12,6 +12,10 @@ server {
         include fastcgi_sympa;
     }
 
+    location /sympasoap {
+	    include fastcgi_sympasoap;
+    }
+
     location /lists {
         include fastcgi_sympa;
     }
