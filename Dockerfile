@@ -13,8 +13,6 @@ VOLUME /var/spool/sympa
 VOLUME /var/lib/sympa
 VOLUME /var/spool/nullmailer
 
-ENV VERSION=6.1.23
-
 COPY ./etc/apt /etc/apt
 
 # We additionally install recommended Sympa packages which are libraries.
@@ -26,12 +24,12 @@ RUN apt-get update -q -q && \
  apt-get install build-essential ubuntu-dev-tools equivs --no-install-recommends --yes --force-yes && \
  backportpackage --dont-sign --source=vivid --workdir=/tmp/backport sympa && \
  cd /tmp/backport && \
- dpkg-source -x sympa_${VERSION}~dfsg-2~ubuntu14.04.1.dsc && \
- cd /tmp/backport/sympa-${VERSION}~dfsg && \
+ dpkg-source -x sympa_6.1.23~dfsg-2~ubuntu14.04.1.dsc && \
+ cd /tmp/backport/sympa-6.1.23~dfsg && \
  mk-build-deps --install --remove --tool 'apt-get --no-install-recommends --force-yes --yes' && \
  dpkg-buildpackage && \
  cd /tmp/backport && \
- dpkg --unpack sympa_${VERSION}~dfsg-2~ubuntu14.04.1_amd64.deb && \
+ dpkg --unpack sympa_6.1.23~dfsg-2~ubuntu14.04.1_amd64.deb && \
  apt-get install --yes --force-yes --fix-broken && \
  apt-get purge build-essential sympa-build-deps ubuntu-dev-tools equivs --yes --force-yes && \
  apt-get autoremove --yes --force-yes && \
