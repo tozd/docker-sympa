@@ -57,5 +57,9 @@ rm -rf /usr/lib/sympa/locale/en_US /usr/lib/sympa/locale/en
 # For sympasoap fastcgi service
 RUN apt-get install spawn-fcgi
 
+
 COPY ./etc /etc
 
+# Update CONF
+WORKDIR /etc/sympa
+RUN /bin/bash conf.sh
