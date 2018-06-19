@@ -59,6 +59,12 @@ RUN apt-get install spawn-fcgi
 
 
 COPY ./etc /etc
+# logs should go to stdout / stderr
+# syslog = kern.log
+RUN ln -sfT /dev/stdout /var/log/syslog && \
+    ln -sfT /dev/null /var/log/kern.log && \
+    ln -sfT /dev/stdout /var/log/nginx/access.log && \
+    ln -sfT /dev/stderr /var/log/nginx/error.log
 
 # Update CONF
 WORKDIR /etc/sympa
