@@ -22,14 +22,14 @@ RUN apt-get update -q -q && \
  echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && \
  dpkg-reconfigure locales && \
  apt-get install build-essential ubuntu-dev-tools equivs --no-install-recommends --yes --force-yes && \
- backportpackage --dont-sign --source=vivid --workdir=/tmp/backport sympa && \
+ backportpackage --dont-sign --source=xenial --workdir=/tmp/backport sympa && \
  cd /tmp/backport && \
- dpkg-source -x sympa_6.1.23~dfsg-2~ubuntu14.04.1.dsc && \
- cd /tmp/backport/sympa-6.1.23~dfsg && \
+ dpkg-source -x sympa_6.1.24~dfsg-1~ubuntu14.04.1.dsc && \
+ cd /tmp/backport/sympa-6.1.24~dfsg && \
  mk-build-deps --install --remove --tool 'apt-get --no-install-recommends --force-yes --yes' && \
  dpkg-buildpackage && \
  cd /tmp/backport && \
- dpkg --unpack sympa_6.1.23~dfsg-2~ubuntu14.04.1_amd64.deb && \
+ dpkg --unpack sympa_6.1.24~dfsg-1~ubuntu14.04.1_amd64.deb && \
  apt-get install --yes --force-yes --fix-broken && \
  apt-get purge build-essential sympa-build-deps ubuntu-dev-tools equivs --yes --force-yes && \
  apt-get autoremove --yes --force-yes && \
@@ -39,9 +39,9 @@ RUN apt-get update -q -q && \
  chsh --shell /bin/sh sympa && \
  sed -i 's/sympa\.log/sympa\/sympa.log/' /etc/rsyslog.d/sympa.conf && \
  mkdir -m 700 /var/spool/sympa.orig /var/spool/nullmailer.orig /var/lib/sympa.orig && \
- mv /var/spool/sympa/* /var/spool/sympa.orig/ && \
- mv /var/spool/nullmailer/* /var/spool/nullmailer.orig/ && \
- mv /var/lib/sympa/* /var/lib/sympa.orig/ && \
+ (mv /var/spool/sympa/* /var/spool/sympa.orig/ || true) && \
+ (mv /var/spool/nullmailer/* /var/spool/nullmailer.orig/ || true) && \
+ (mv /var/lib/sympa/* /var/lib/sympa.orig/ || true) && \
  apt-get install postgresql-client-9.3 --yes --force-yes
 
 COPY ./patches patches
