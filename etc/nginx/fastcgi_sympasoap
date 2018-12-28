@@ -1,0 +1,10 @@
+# Settings for FastCGI Perl daemon
+include		fastcgi_soap_host;
+include		fastcgi_params;
+fastcgi_split_path_info ^(/sympasoap)(.*)$;
+fastcgi_param	SCRIPT_NAME	$fastcgi_script_name;
+fastcgi_param	SCRIPT_FILENAME	/usr/lib/cgi-bin/sympa/sympa_soap_server.fcgi;
+fastcgi_param	PATH_INFO	$fastcgi_path_info;
+fastcgi_param	SERVER_NAME	$host;
+fastcgi_intercept_errors	on;
+

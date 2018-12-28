@@ -2,6 +2,7 @@ FROM tozd/nginx
 
 ENV FCGI_HOST 127.0.0.1
 ENV FCGI_PORT 9000
+ENV FCGI_SOAP_PORT 10000
 ENV ADMINADDR admin@example.com
 ENV REMOTES mail.example.com
 
@@ -15,7 +16,6 @@ VOLUME /var/spool/nullmailer
 COPY ./etc/apt /etc/apt
 
 # We additionally install recommended Sympa packages which are libraries.
-
 RUN apt-get update -q -q && \
  apt-get install nullmailer rsyslog locales --no-install-recommends --yes --force-yes && \
  apt-get install openssh-server --yes --force-yes && \
@@ -52,6 +52,20 @@ RUN \
  rm -rf patches && \
  apt-get purge patch --yes --force-yes && \
  apt-get autoremove --yes --force-yes && \
- rm -rf /usr/lib/sympa/locale/en_US /usr/lib/sympa/locale/en
+rm -rf /usr/lib/sympa/locale/en_US /usr/lib/sympa/locale/en
+
+# For sympasoap fastcgi service
+RUN apt-get install spawn-fcgi
+
 
 COPY ./etc /etc
+# logs should go to stdout / stderr
+# syslog = kern.log
+RUN ln -sfT /dev/stdout /var/log/syslog && \
+    ln -sfT /dev/null /var/log/kern.log && \
+    ln -sfT /dev/stdout /var/log/nginx/access.log && \
+    ln -sfT /dev/stderr /var/log/nginx/error.log
+
+# Update CONF
+WORKDIR /etc/sympa
+RUN /bin/bash conf.sh

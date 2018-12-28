@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+# Sleep so that main Sympa process can start and prepare everything
+sleep 10
+
+export FCGI_SOCKET_PATH="$FCGI_HOST:$FCGI_SOAP_PORT"
+echo fastcgi_pass "$FCGI_HOST:$FCGI_SOAP_PORT;" > /etc/nginx/fastcgi_soap_host
+
+# /usr/bin/spawn-fcgi -F 1 -P /run/sympa/sympasoap.pid -u sympa -g sympa -p 10000 -- /usr/lib/cgi-bin/sympa/sympa_soap_server-wrapper.fcgi
+exec chpst -u sympa:sympa /usr/bin/spawn-fcgi -p $FCGI_SOAP_PORT /usr/lib/cgi-bin/sympa/sympa_soap_server-wrapper.fcgi &
