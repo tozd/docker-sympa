@@ -1,4 +1,4 @@
-FROM clonm/nginx:ubuntu-bionic
+FROM cloyne/nginx:ubuntu-bionic
 
 ENV FCGI_HOST 127.0.0.1
 ENV FCGI_PORT 9000
@@ -29,6 +29,7 @@ RUN apt-get update -q -q && \
  (mv /var/spool/sympa/* /var/spool/sympa.orig/ || true) && \
  (mv /var/spool/nullmailer/* /var/spool/nullmailer.orig/ || true) && \
  (mv /var/lib/sympa/* /var/lib/sympa.orig/ || true) && \
+ (cp -R /var/lib/sympa.orig/static_content /var/lib/sympa/static_content || true) && \
  apt-get install postgresql-client-10 --yes
 
 COPY ./patches patches
