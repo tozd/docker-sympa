@@ -3,7 +3,7 @@
 chown mail /var/spool/nullmailer
 
 # If directory is empty, we restore it from our copy of initial files
-[[ $(ls -A /var/spool/nullmailer | grep -v placeholder) ]] || cp -a /var/spool/nullmailer.orig/* /var/spool/nullmailer/
+#[[ $(ls -A /var/spool/nullmailer | grep -v placeholder) ]] || cp -a /var/spool/nullmailer.orig/* /var/spool/nullmailer/
 
 if [ ! -p /var/spool/nullmailer/trigger ]; then
   rm -f /var/spool/nullmailer/trigger

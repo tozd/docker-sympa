@@ -9,12 +9,13 @@
 CONF=(
   DOMAIN=localhost
   LISTMASTER=root@localhost.localdomain
-  WWSYMPA_URL=http://localhost/lists
+  WWSYMPA_URL=http://127.0.0.1:8008/lists
   COOKIE=GenerateSring
-  DB_HOST=localhost
-  DB_PASSWD=password
-  HTTP_HOST=http://localhost/
-  SOAP_URL=http://localhost/sympasoap
+  DB_HOST=sympa_db
+  DB_PASSWD=sympa
+  HTTP_HOST=http://127.0.0.1:8008/
+  SOAP_URL=http://127.0.0.1:8008/sympasoap
+  COOKIE_DOMAIN=127.0.0.1
 )
 
 function applyConf() {
