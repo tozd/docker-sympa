@@ -62,6 +62,7 @@ COPY runservices /usr/sbin/
 ## logs should go to stdout / stderr
 ## syslog = kern.log
 RUN ln -sfT /dev/stdout /var/log/syslog && \
-    ln -sfT /dev/null /var/log/kern.log 
+    ln -sfT /dev/null /var/log/kern.log && \
+    ln -sfT /dev/stdout /var/log/sympa.log
 
 ENTRYPOINT ["/usr/sbin/runservices"]
