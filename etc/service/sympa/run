@@ -1,44 +1,49 @@
 #!/bin/bash -e
+PIDFILE=/run/sympa.pid
 
-mkdir -p /var/lib/sympa/list_data
-chown -Rh sympa:sympa /etc/sympa/*
-chown -Rh sympa:sympa /var/lib/sympa /var/spool/sympa
-chmod 771 /var/spool/sympa
-chmod 750 /etc/sympa/includes
-find /etc/sympa/includes/ -type f -exec chmod 640 {} \;
-find /etc/sympa/includes/ -type f -exec chown -Rh :sympa {} \;
-
-
-# If directory is empty, we restore it from our copy of initial files.
-#[[ $(ls -A /var/lib/sympa | grep -v placeholder) ]] || cp -a /var/lib/sympa.orig/* /var/lib/sympa/
-#[[ $(ls -A /var/spool/sympa | grep -v placeholder) ]] || cp -a /var/spool/sympa.orig/* /var/spool/sympa/
-
-# If installation time cookie file exists, remove it, we are using one mapped from outside.
-if [ -e /etc/sympa/cookie ]; then
-  rm /etc/sympa/cookie /etc/sympa/cookies.history
-fi
-
-# So that Postfix can connect into us to deliver e-mail to mailing lists. /etc/sympa/shared is a
-# volume shared with the Postfix container which contains the SSH key that container should use
-# when connecting to this container.
-if [ -e /etc/sympa/shared ]; then
-  # If SSH keys do not exist, create them.
-  if [ ! -e /etc/sympa/shared/id_rsa ]; then
-    ssh-keygen -t rsa -f /etc/sympa/shared/id_rsa -N ''
-  fi
-
-#  rm -f /etc/sympa/shared/known_hosts
-#  echo -n 'sympa ' > /etc/sympa/shared/known_hosts
-#  cat /etc/ssh/ssh_host_rsa_key.pub >> /etc/sympa/shared/known_hosts
-
-  mkdir -p /var/lib/sympa/.ssh
-  echo -n 'no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty,command="/etc/sympa/run.sh" ' > /var/lib/sympa/.ssh/authorized_keys
-  cat /etc/sympa/shared/id_rsa.pub >> /var/lib/sympa/.ssh/authorized_keys
-fi
-
-# All output is logged to /var/log/sympa/sympa.log so we redirect stdout and stderr to /dev/null.
-#echo "sympa.pl Starting"; > /var/log/sympa.log
 if [ ! -f $PIDFILE ] ; then
+  echo "sympa_msg.pl Starting"; >> /var/log/sympa.log
+  echo $$ > /run/sympa.pid
+  # waiting for rsyslog
+  sleep 3
+  
+  mkdir -p /var/lib/sympa/list_data
+  chown -Rh sympa:sympa /etc/sympa/*
+  chown -Rh sympa:sympa /var/lib/sympa /var/spool/sympa
+  chmod 771 /var/spool/sympa
+  chmod 750 /etc/sympa/includes
+  find /etc/sympa/includes/ -type f -exec chmod 640 {} \;
+  find /etc/sympa/includes/ -type f -exec chown -Rh :sympa {} \;
+  
+  
+  # If directory is empty, we restore it from our copy of initial files.
+  #[[ $(ls -A /var/lib/sympa | grep -v placeholder) ]] || cp -a /var/lib/sympa.orig/* /var/lib/sympa/
+  #[[ $(ls -A /var/spool/sympa | grep -v placeholder) ]] || cp -a /var/spool/sympa.orig/* /var/spool/sympa/
+  
+  # If installation time cookie file exists, remove it, we are using one mapped from outside.
+  if [ -e /etc/sympa/cookie ]; then
+    rm /etc/sympa/cookie /etc/sympa/cookies.history
+  fi
+  
+  # So that Postfix can connect into us to deliver e-mail to mailing lists. /etc/sympa/shared is a
+  # volume shared with the Postfix container which contains the SSH key that container should use
+  # when connecting to this container.
+  if [ -e /etc/sympa/shared ]; then
+    # If SSH keys do not exist, create them.
+    if [ ! -e /etc/sympa/shared/id_rsa ]; then
+      ssh-keygen -t rsa -f /etc/sympa/shared/id_rsa -N ''
+    fi
+  
+  #  rm -f /etc/sympa/shared/known_hosts
+  #  echo -n 'sympa ' > /etc/sympa/shared/known_hosts
+  #  cat /etc/ssh/ssh_host_rsa_key.pub >> /etc/sympa/shared/known_hosts
+  
+    mkdir -p /var/lib/sympa/.ssh
+    echo -n 'no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty,command="/etc/sympa/run.sh" ' > /var/lib/sympa/.ssh/authorized_keys
+    cat /etc/sympa/shared/id_rsa.pub >> /var/lib/sympa/.ssh/authorized_keys
+  fi
+  
+  # All output is logged to /var/log/sympa/sympa.log so we redirect stdout and stderr to /dev/null.
   /usr/local/sbin/sympa.pl --health_check
-  exec chpst -u sympa:sympa /usr/local/sbin/sympa_msg.pl 2>&1 >> /var/log/sympa.log
+  exec chpst -u sympa:sympa /usr/local/sbin/sympa_msg.pl --foreground 2>&1 >> /var/log/sympa.log
 fi
