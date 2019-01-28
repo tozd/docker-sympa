@@ -31,7 +31,7 @@ RUN apt-get install nullmailer --yes
 # Sympa manual installation
 RUN wget https://www.sympa.org/distribution/sympa-6.2.38.tar.gz && wget https://www.sympa.org/distribution/sympa-6.2.38.tar.gz.md5 && md5sum -c sympa-6.2.38.tar.gz.md5
 RUN apt-get install gcc --yes
-RUN groupadd sympa && useradd -g sympa -c 'Sympa user' -b /var/lib/sympa -s /bin/sh sympa
+RUN groupadd sympa && useradd -g sympa -c 'Sympa user' -b /var/lib -s /bin/sh sympa
 RUN tar -xzf sympa-6.2.38.tar.gz
 WORKDIR sympa-6.2.38
 RUN ./configure --enable-fhs --prefix=/usr/local --with-confdir=/etc/sympa 
@@ -43,7 +43,8 @@ RUN yes |apt-get install rsyslog --yes
 COPY ./etc /etc
 
 # Cleanup
-RUN apt-get remove wget gcc make --yes && apt-get clean all
+RUN apt-get remove wget gcc make --yes && apt-get clean all && \
+    rm -Rf /sympa-6.2.38*
 # XXX FOR DEBUG PURPOSE
 #RUN apt-get install vim --yes
 
