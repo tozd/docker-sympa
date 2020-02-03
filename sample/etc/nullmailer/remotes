@@ -1,0 +1,2 @@
+# Postfix host and port
+172.17.0.1 smtp --port=2525

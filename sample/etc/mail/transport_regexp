@@ -1,0 +1,3 @@
+# postfix transport regexp
+/^.*-owner\@mylist.mydomain$/ sympabounce:
+/^.*\@mylist.mydomain$/ sympa:
