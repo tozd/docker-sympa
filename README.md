@@ -1,7 +1,7 @@
 ## Ready to use sympa docker image
 
 
-Build the image:
+Pull the image:
 ```
 docker pull avelgornog/docker-sympa-ws
 ```
