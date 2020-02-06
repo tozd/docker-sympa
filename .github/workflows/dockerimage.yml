@@ -11,4 +11,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag docker-sympa:$(date +%Y%m%d)
+      run: docker build . --file Dockerfile --tag docker-sympa-ws:$(date +%Y%m%d)
+    - name: Tag the Docker image
+      run: docker tag docker-sympa-ws:$(date +%Y%m%d) avelgornog/docker-sympa-ws:latest
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - name: Push to DockerHub
+      run: docker push avelgornog/docker-sympa-ws:latest
