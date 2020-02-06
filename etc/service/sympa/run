@@ -41,6 +41,11 @@ if [ ! -f $PIDFILE ] ; then
     mkdir -p /var/lib/sympa/.ssh
     echo -n 'no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty,command="/etc/sympa/run.sh" ' > /var/lib/sympa/.ssh/authorized_keys
     cat /etc/sympa/shared/id_rsa.pub >> /var/lib/sympa/.ssh/authorized_keys
+    # Fix permission on ssh key
+    if [ ${UID_MAILPIPE} != "" ] ; then
+       chown ${UID_MAILPIPE}:${GID_POSTDROP} /etc/sympa/shared/*
+       [[ -f /etc/sympa/shared/id_rsa ]] && chmod 600 /etc/sympa/shared/id_rsa
+    fi
   fi
   
   # All output is logged to /var/log/sympa/sympa.log so we redirect stdout and stderr to /dev/null.

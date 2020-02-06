@@ -6,6 +6,8 @@ ENV FCGI_SOAP_PORT 10000
 ENV ADMINADDR admin@example.com
 ENV REMOTES mail.example.com
 ENV DEBIAN_FRONTEND noninteractive
+ENV UID_MAILPIPE
+ENV GID_MAILPIPE
 
 VOLUME /var/log/sympa
 VOLUME /etc/sympa/includes
