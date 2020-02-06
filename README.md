@@ -3,14 +3,12 @@
 
 Build the image:
 ```
-git clone -b 6.2.38 https://github.com/OlivierGuilloux/docker-sympa
-cd docker-sympa
-docker build -t docker-sympa:6.2.38 .
+docker pull avelgornog/docker-sympa-ws
 ```
 
 Add your specifics (cf. sample/):
 ```
-FROM docker-sympa-ws:6.2.38
+FROM avelgornog/docker-sympa-ws
 
 # Update the configuration
 COPY ./etc/sympa /etc/sympa
