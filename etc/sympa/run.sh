@@ -2,7 +2,7 @@
 #
 # Script for running Sympa delivery commands.
 
-SCRIPTS_PATH='/usr/lib/sympa/bin'
+SCRIPTS_PATH='/usr/local/libexec'
 SCRIPTS='queue bouncequeue'
 
 command=$(echo "$SSH_ORIGINAL_COMMAND" | cut -d ' ' -f 1)

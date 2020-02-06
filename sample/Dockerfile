@@ -1,16 +1,6 @@
-## Ready to use sympa docker image
+FROM docker-sympa-ws:6.2.38
 
-
-Pull the image:
-```
-docker pull avelgornog/docker-sympa-ws
-```
-
-Add your specifics (cf. sample/):
-```
-FROM avelgornog/docker-sympa-ws
-
-# Update the configuration
+# Configuration
 COPY ./etc/sympa /etc/sympa
 RUN chown sympa.sympa -R /etc/sympa
 
@@ -20,5 +10,4 @@ COPY ./shared/id_rsa.pub /var/lib/sympa/.ssh/
 
 # Update Locale
 RUN locale-gen fr_FR.UTF-8 && export LANG=fr_FR.UTF-8
-```
 
