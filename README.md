@@ -1,17 +1,27 @@
-Image providing [Sympa](https://www.sympa.org/) mailing list service.
+# tozd/sympa
+
+<https://gitlab.com/tozd/docker/sympa>
+
+Available as:
+
+* [`tozd/sympa`](https://hub.docker.com/r/tozd/sympa)
+* [`registry.gitlab.com/tozd/docker/sympa`](https://gitlab.com/tozd/docker/sympa/container_registry)
+
+## Description
+
+Docker image providing [Sympa](https://www.sympa.org/) mailing list service.
 
 You should make sure you mount spool and data volumes (`/var/spool/sympa`, `/var/spool/nullmailer`,
 and `/var/lib/sympa`) so that you do not lose e-mails and mailing lists data when you are
-recreating a container. If volumes are empty, image will initialize them at the first startup.
+recreating a container.
 
 The intended use of this image is that it is extended (see [cloyne/sympa](https://github.com/cloyne/docker-sympa)
 for an example) with customizations for your installation, and used together with
-[tozd/postfix](https://github.com/tozd/docker-postfix) for receiving and sending e-mails
+[tozd/postfix](https://gitlab.com/tozd/docker.postfix) for receiving and sending e-mails
 (see [cloyne/postfix](https://github.com/cloyne/docker-postfix) for an example how to integrate
-them together). It is configured to be used with [tozd/postgresql](https://github.com/tozd/docker-postgresql)
-PostgreSQL database, by default, running in a contained named `pgsql`. You can link containers together
-or use [tozd/hosts](https://github.com/tozd/docker-hosts). Use `REMOTES` environment variable to
-specify the container or server used for sending e-mails.
+them together). It is configured to be used with [tozd/postgresql](https://gitlab.com/tozd/docker/postgresql)
+PostgreSQL database, by default, running in a container named `pgsql`.
+Use `REMOTES` environment variable to specify the container or server used for sending e-mails.
 
 **The image contains only example values and cannot run without extending (or mounting necessary files into it).**
 
