@@ -16,10 +16,11 @@ VOLUME /var/spool/nullmailer
 
 RUN apt-get update -q -q && \
  apt-get --yes --force-yes --no-install-recommends install nullmailer rsyslog && \
- apt-get --yes --force-yes install openssh-server postgresql-client-10 sympa libglib2.0-data \
-  shared-mime-info libio-socket-ip-perl libio-socket-inet6-perl krb5-locales libmime-types-perl \
-  libsasl2-modules libhtml-form-perl libhttp-daemon-perl libxml-sax-expat-perl xml-core \
-  libfile-nfslock-perl libsoap-lite-perl libcrypt-ciphersaber-perl libmail-dkim-perl && \
+ apt-get --yes --force-yes install openssh-server postgresql-client-10 sympa && \
+ apt-get --yes --force-yes install libglib2.0-data shared-mime-info libio-socket-ip-perl \
+  libio-socket-inet6-perl krb5-locales libmime-types-perl libsasl2-modules libhtml-form-perl \
+  libhttp-daemon-perl libxml-sax-expat-perl xml-core libfile-nfslock-perl libsoap-lite-perl \
+  libcrypt-ciphersaber-perl libmail-dkim-perl && \
  mkdir -p /var/run/sympa && \
  chown sympa:sympa /var/run/sympa && \
  chsh --shell /bin/sh sympa && \
