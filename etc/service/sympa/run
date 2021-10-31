@@ -34,7 +34,7 @@ if [ -e /etc/sympa/shared ]; then
   cat /etc/sympa/shared/id_rsa.pub >> /var/lib/sympa/.ssh/authorized_keys
 fi
 
-# Remove any stale config binaries
+# Remove any stale config binaries.
 rm -f /etc/sympa/*/*.bin
 
 # All output is logged to /var/log/sympa/sympa.log so we redirect stdout and stderr to /dev/null.

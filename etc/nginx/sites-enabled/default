@@ -16,10 +16,6 @@ server {
         include fastcgi_sympa;
     }
 
-    location /static-sympa/ {
-        alias /var/lib/sympa/static_content/;
-    }
-
     location /sympa-static/ {
         alias /var/lib/sympa/static_content/;
     }
