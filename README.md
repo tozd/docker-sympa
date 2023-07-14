@@ -36,11 +36,15 @@ when you are recreating a container.
 
 The intended use of this image is that it is extended (see [cloyne/sympa](https://github.com/cloyne/docker-sympa)
 for an example) with customizations for your installation, and used together with
-[tozd/postfix](https://gitlab.com/tozd/docker.postfix) for receiving and sending e-mails
-(see [cloyne/postfix](https://github.com/cloyne/docker-postfix) for an example how to integrate
-them together). It is configured to be used with [tozd/postgresql](https://gitlab.com/tozd/docker/postgresql)
-PostgreSQL database, by default, running in a container named `pgsql`.
-Use `REMOTES` environment variable to specify the container or server used for sending e-mails.
+[tozd/postfix](https://gitlab.com/tozd/docker/postfix) for receiving and sending e-mails.
+`tozd/postfix` container should be configured to use SSH to deliver e-mails to `tozd/sympa`
+and use `REMOTES` environment variable to specify the container (i.e., `tozd/postfix`)
+or server used for sending e-mails.
+See [cloyne/postfix](https://github.com/cloyne/docker-postfix) for an example how to integrate
+images together.
+
+The image is by default configured to be used with [tozd/postgresql](https://gitlab.com/tozd/docker/postgresql)
+PostgreSQL database, running in a container named `pgsql`.
 
 **The image contains only example values and cannot run without extending (or mounting necessary files into it).**
 
@@ -56,7 +60,7 @@ $ createuser -U postgres -DRS -PE sympa
 $ createdb -U postgres -O sympa sympa
 ```
 
-You might have to initialize afterwards the database. Run from inside your Sympa container:
+You have to initialize afterwards the database. Run from inside your Sympa container:
 
 ```
 $ psql -h pgsql -U sympa -W -f /usr/share/sympa/bin/create_db.Pg
