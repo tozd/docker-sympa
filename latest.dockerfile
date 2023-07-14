@@ -1,23 +1,17 @@
-FROM registry.gitlab.com/tozd/docker/nginx:ubuntu-bionic
-
-ENV FCGI_HOST 127.0.0.1
-ENV FCGI_PORT 9000
-ENV ADMINADDR admin@example.com
-ENV REMOTES mail.example.com
+FROM registry.gitlab.com/tozd/docker/nginx-mailer:ubuntu-jammy
 
 VOLUME /var/log/sympa
 VOLUME /etc/sympa/includes
 VOLUME /etc/sympa/shared
 VOLUME /var/spool/sympa
 VOLUME /var/lib/sympa
-VOLUME /var/spool/nullmailer
 
 # We install recommended Sympa packages manually otherwise Sympa installation fails.
 RUN apt-get update -q -q && \
- apt-get --yes --force-yes --no-install-recommends install nullmailer rsyslog && \
  apt-get --yes --force-yes install openssh-server postgresql-client-10 && \
  apt-get --yes --force-yes --no-install-recommends install sympa && \
  apt-get --yes --force-yes install libglib2.0-data shared-mime-info libio-socket-ip-perl \
+  apt-get --yes --force-yes --no-install-recommends install rsyslog && \
   libio-socket-inet6-perl krb5-locales libmime-types-perl libsasl2-modules libhtml-form-perl \
   libhttp-daemon-perl libxml-sax-expat-perl xml-core libfile-nfslock-perl libsoap-lite-perl \
   libcrypt-ciphersaber-perl libmail-dkim-perl && \
