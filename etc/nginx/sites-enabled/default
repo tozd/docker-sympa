@@ -8,6 +8,10 @@ server {
         return 404;
     }
 
+    location ~ /\. {
+        return 403;
+    }
+
     location /sympa {
         include fastcgi_sympa;
     }
@@ -22,9 +26,5 @@ server {
 
     location /lists-static/ {
         alias /var/lib/sympa/static_content/;
-    }
-
-    location ~ /\. {
-        return 403;
     }
 }
