@@ -7,13 +7,15 @@ chmod 750 /etc/sympa/includes
 chmod 640 /etc/sympa/includes/*
 chown -Rh :sympa /etc/sympa/includes/*
 
+chpst -u sympa:sympa /usr/lib/sympa/bin/sympa.pl --health_check
+
 # So that Postfix can connect into us to deliver e-mail to mailing lists. /etc/sympa/shared is a
 # volume shared with the Postfix container which contains the SSH key that container should use
 # when connecting to this container.
 if [ -e /etc/sympa/shared ]; then
   # If SSH keys do not exist, create them.
   if [ ! -e /etc/sympa/shared/id_rsa ]; then
-    ssh-keygen -t rsa -f /etc/sympa/shared/id_rsa -N ''
+    ssh-keygen -t rsa -f /etc/sympa/shared/id_rsa -N '' >/dev/null
   fi
 
   rm -f /etc/sympa/shared/known_hosts
