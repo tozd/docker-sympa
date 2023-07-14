@@ -18,8 +18,6 @@ Available as:
 ## Volumes
 
 - `/var/log/sympa`: Log files. Logs are **not** rotated.
-- `/etc/sympa/includes`: Secrets used by Sympa. It should contain one file:
-  - `database`: A password for `sympa` user with permissions over `sympa` PostgreSQL database at (by default) `pgsql` container.
 - `/etc/sympa/shared`: A volume shared with a Postfix container to provide necessary SSH keys for communication between containers.
 - `/var/spool/sympa`: Persist this volume to not lose state.
 - `/var/lib/sympa`: Persist this volume to not lose state.
@@ -47,10 +45,8 @@ PostgreSQL database, running in a container named `pgsql`.
 
 **The image contains only example values and cannot run without extending (or mounting necessary files into it).**
 
-You should provide two volumes, `/etc/sympa/includes` and `/etc/sympa/shared`.
-
-When extending the image you should override files in the `/etc/sympa/conf.d` directory
-with ones containing your values. Moreover you probably want to define your own Sympa robot.
+You should provide one volume `/etc/sympa/shared` and also mount your `sympa.conf` configuration into `/etc/sympa/sympa/sympa.conf`.
+You can use [image default as a starting point](./etc/sympa/sympa/sympa.conf).
 
 To create a database for Sympa, `exec` into your PostgreSQL container and run:
 
