@@ -27,6 +27,10 @@ RUN apt-get update -q -q && \
   sed -i 's/sympa\.log/sympa\/sympa.log/' /etc/rsyslog.d/sympa.conf && \
   rm -f /etc/sympa/cookie /etc/sympa/cookies.history && \
   sed -i '/imklog/s/^/#/' /etc/rsyslog.conf && \
+  mkdir -m 700 /var/lib/sympa.orig && \
+  mv /var/lib/sympa/* /var/lib/sympa.orig/ && \
+  mkdir -m 700 /var/spool/sympa.orig && \
+  mv /var/spool/sympa/* /var/spool/sympa.orig/ && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
 
 COPY ./patches /patches

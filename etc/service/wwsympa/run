@@ -3,9 +3,13 @@
 chown -Rh :sympa /etc/sympa/*
 chown -Rh sympa:sympa /var/lib/sympa /var/spool/sympa
 chmod 771 /var/spool/sympa
-chmod 750 /etc/sympa/includes
-chmod 640 /etc/sympa/includes/*
-chown -Rh :sympa /etc/sympa/includes/*
+
+mkdir -p /run/sympa
+chown sympa:sympa /run/sympa
+
+# If directory is empty, we restore it from our copy of initial files.
+[[ $(ls -A /var/lib/sympa | grep -v placeholder) ]] || cp -a /var/lib/sympa.orig/* /var/lib/sympa/
+[[ $(ls -A /var/spool/sympa | grep -v placeholder) ]] || cp -a /var/spool/sympa.orig/* /var/spool/sympa/
 
 chpst -u sympa:sympa /usr/lib/sympa/bin/sympa.pl --health_check
 
@@ -29,5 +33,4 @@ fi
 
 export FCGI_SOCKET_PATH="127.0.0.1:9000"
 
-# All output is logged to /var/log/sympa/sympa.log so we redirect stdout and stderr to /dev/null.
-exec chpst -u sympa:sympa /usr/lib/cgi-bin/sympa/wwsympa.fcgi >/dev/null 2>&1
+exec chpst -u sympa:sympa /usr/lib/cgi-bin/sympa/wwsympa.fcgi
