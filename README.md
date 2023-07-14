@@ -18,9 +18,8 @@ Available as:
 ## Volumes
 
 - `/var/log/sympa`: Log files. Logs are **not** rotated.
-- `/etc/sympa/includes`: Secrets used by Sympa. It should contain two files:
+- `/etc/sympa/includes`: Secrets used by Sympa. It should contain one file:
   - `database`: A password for `sympa` user with permissions over `sympa` PostgreSQL database at (by default) `pgsql` container.
-  - `cookie`: A randomly generated string used for cookie string secret.
 - `/etc/sympa/shared`: A volume shared with a Postfix container to provide necessary SSH keys for communication between containers.
 - `/var/spool/sympa`: Persist this volume to not lose state.
 - `/var/lib/sympa`: Persist this volume to not lose state.
