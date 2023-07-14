@@ -55,12 +55,6 @@ $ createuser -U postgres -DRS -PE sympa
 $ createdb -U postgres -O sympa sympa
 ```
 
-You have to initialize afterwards the database. Run from inside your Sympa container:
-
-```
-$ psql -h pgsql -U sympa -W -f /usr/share/sympa/bin/create_db.Pg
-```
-
 ## GitHub mirror
 
 There is also a [read-only GitHub mirror available](https://github.com/tozd/docker-sympa),
