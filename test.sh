@@ -50,7 +50,7 @@ time docker network create testnet
 cleanup_network=1
 
 echo "Preparing"
-# apk add --no-cache jq
+apk add --no-cache jq
 
 echo "Running pgsql Docker image"
 docker run -d --name pgsql --network testnet -e LOG_TO_STDOUT=1 -e PGSQL_ROLE_1_USERNAME=sympa -e PGSQL_ROLE_1_PASSWORD=password -e PGSQL_DB_1_NAME=sympa -e PGSQL_DB_1_OWNER=sympa registry.gitlab.com/tozd/docker/postgresql:14
@@ -86,17 +86,17 @@ echo "Sleeping"
 sleep 10
 
 # The first e-mail is about database structure which was initialized.
-wget -q -O - http://localhost:8025/api/v2/messages | jq -r .items[2].Content.Headers.From[0] | grep -F "SYMPA <sympa@example.com>"
-wget -q -O - http://localhost:8025/api/v2/messages | jq -r .items[2].Content.Headers.To[0] | grep -F "Listmaster <listmaster@example.com>"
-wget -q -O - http://localhost:8025/api/v2/messages | jq -r .items[2].Content.Headers.Subject[0] | grep -F "Database structure updated"
+wget -q -O - http://docker:8025/api/v2/messages | jq -r .items[2].Content.Headers.From[0] | grep -F "SYMPA <sympa@example.com>"
+wget -q -O - http://docker:8025/api/v2/messages | jq -r .items[2].Content.Headers.To[0] | grep -F "Listmaster <listmaster@example.com>"
+wget -q -O - http://docker:8025/api/v2/messages | jq -r .items[2].Content.Headers.Subject[0] | grep -F "Database structure updated"
 
 # The second e-mail is that the user got subscribed.
-wget -q -O - http://localhost:8025/api/v2/messages | jq -r .items[1].Content.Headers.From[0] | grep -F "example-request@example.com"
-wget -q -O - http://localhost:8025/api/v2/messages | jq -r .items[1].Content.Headers.To[0] | grep -F "user@example.com"
-wget -q -O - http://localhost:8025/api/v2/messages | jq -r .items[1].Content.Headers.Subject[0] | grep -F "Welcome to list example"
+wget -q -O - http://docker:8025/api/v2/messages | jq -r .items[1].Content.Headers.From[0] | grep -F "example-request@example.com"
+wget -q -O - http://docker:8025/api/v2/messages | jq -r .items[1].Content.Headers.To[0] | grep -F "user@example.com"
+wget -q -O - http://docker:8025/api/v2/messages | jq -r .items[1].Content.Headers.Subject[0] | grep -F "Welcome to list example"
 
 # The third e-mail is what we sent to example@example.com mailing list.
-wget -q -O - http://localhost:8025/api/v2/messages | jq -r .items[0].Raw.From | grep -F "example-owner@example.com"
-wget -q -O - http://localhost:8025/api/v2/messages | jq -r .items[0].Raw.To[0] | grep -F "user@example.com"
+wget -q -O - http://docker:8025/api/v2/messages | jq -r .items[0].Raw.From | grep -F "example-owner@example.com"
+wget -q -O - http://docker:8025/api/v2/messages | jq -r .items[0].Raw.To[0] | grep -F "user@example.com"
 
 echo "Success"
