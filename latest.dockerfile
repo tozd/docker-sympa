@@ -26,6 +26,7 @@ RUN apt-get update -q -q && \
   chsh --shell /bin/sh sympa && \
   sed -i 's/sympa\.log/sympa\/sympa.log/' /etc/rsyslog.d/sympa.conf && \
   rm -f /etc/sympa/cookie /etc/sympa/cookies.history && \
+  sed -i '/imklog/s/^/#/' /etc/rsyslog.conf && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
 
 COPY ./patches /patches
