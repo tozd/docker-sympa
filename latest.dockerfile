@@ -25,6 +25,7 @@ RUN apt-get update -q -q && \
   rm -rf /var/lib/dbconfig-common/sqlite3/sympa && \
   chsh --shell /bin/sh sympa && \
   sed -i 's/sympa\.log/sympa\/sympa.log/' /etc/rsyslog.d/sympa.conf && \
+  rm -f /etc/sympa/cookie /etc/sympa/cookies.history && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
 
 COPY ./patches /patches
@@ -39,9 +40,10 @@ RUN apt-get update -q -q && \
 COPY ./etc/nginx /etc/nginx
 COPY ./etc/service/rsyslog /etc/service/rsyslog
 COPY ./etc/service/sshd /etc/service/sshd
-COPY ./etc/service/sympa /etc/service/sympa
 COPY ./etc/service/sympa_archived /etc/service/sympa_archived
 COPY ./etc/service/sympa_bounced /etc/service/sympa_bounced
-COPY ./etc/service/wwsympa /etc/service/wwsympa
+COPY ./etc/service/sympa_bulk /etc/service/sympa_bulk
+COPY ./etc/service/sympa_msg /etc/service/sympa_msg
 COPY ./etc/service/sympa_task_manager /etc/service/sympa_task_manager
+COPY ./etc/service/wwsympa /etc/service/wwsympa
 COPY ./etc/sympa /etc/sympa
