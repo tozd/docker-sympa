@@ -1,23 +1,9 @@
---- /usr/lib/cgi-bin/sympa/wwsympa.fcgi.orig	2018-11-09 03:52:09.199232942 +0000
-+++ /usr/lib/cgi-bin/sympa/wwsympa.fcgi	2018-11-09 03:58:06.580674785 +0000
-@@ -1097,7 +1097,10 @@
-     my $cookie_domain = Conf::get_robot_conf($robot, 'cookie_domain');
-     my $http_host = Sympa::Tools::WWW::get_http_host() || '';
-     $http_host =~ s/:\d+$//;    # Suppress port.
-+    my $dotdom = lc $cookie_domain;
-+    $dotdom =~ s/\A(?![.])/./; ## suppress leading dot
--    unless (substr($http_host, -length($cookie_domain)) eq lc $cookie_domain
-+    unless (substr($http_host, -length($dotdom)) eq $dotdom
-+        or ".$http_host" eq $dotdom
-         or $cookie_domain eq 'localhost') {
-         wwslog('notice',
-             '(%s) Does NOT match HTTP_HOST; setting cookie_domain to %s',
---- /usr/share/sympa/lib/Sympa/SOAP/Transport.pm.orig	2017-12-22 12:43:00.000000000 +0000
-+++ /usr/share/sympa/lib/Sympa/SOAP/Transport.pm	2018-11-09 06:50:16.086285527 +0000
+--- /usr/share/sympa/lib/Sympa/WWW/SOAP/Transport.pm.orig	2023-07-14 15:17:11.663046982 +0000
++++ /usr/share/sympa/lib/Sympa/WWW/SOAP/Transport.pm	2023-07-14 15:17:42.811291184 +0000
 @@ -98,7 +98,7 @@
          if (defined $ENV{'SESSION_ID'}) {
              my $cookie =
-                 Sympa::Session::soap_cookie2($ENV{'SESSION_ID'},
+                 Sympa::WWW::Session::soap_cookie2($ENV{'SESSION_ID'},
 -                $ENV{'SERVER_NAME'}, $self->{_ss_cookie_expire});
 +                $options{cookie_domain}, $self->{_ss_cookie_expire});
              $response->headers->push_header('Set-Cookie2' => $cookie);

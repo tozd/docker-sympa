@@ -21,10 +21,26 @@ server {
     }
 
     location /sympa-static/ {
-        alias /var/lib/sympa/static_content/;
+        alias /usr/share/sympa/static_content/;
     }
 
     location /lists-static/ {
-        alias /var/lib/sympa/static_content/;
+        alias /usr/share/sympa/static_content/;
+    }
+
+    location /sympa-css/ {
+        alias /var/lib/sympa/css/;
+    }
+
+    location /lists-css/ {
+        alias /var/lib/sympa/css/;
+    }
+
+    location /sympa-pictures/ {
+        alias /var/lib/sympa/pictures/;
+    }
+
+    location /lists-pictures/ {
+        alias /var/lib/sympa/pictures/;
     }
 }

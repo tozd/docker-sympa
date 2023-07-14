@@ -1,6 +1,6 @@
 # Settings for FastCGI Perl daemon
-include		fastcgi_host;
-include		fastcgi_params;
+fastcgi_pass 127.0.0.1:9000;
+include fastcgi_params;
 fastcgi_split_path_info ^(/sympa|/lists)(.*)$;
 fastcgi_param	SCRIPT_NAME	$fastcgi_script_name;
 fastcgi_param	PATH_INFO	$fastcgi_path_info;

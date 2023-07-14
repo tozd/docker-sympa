@@ -3,6 +3,7 @@
 # A stale PID file can prevent rsyslogd from running.
 rm -f /var/run/rsyslogd.pid
 
-# No need to create any extra directory because logging for Sympa is already configured.
+mkdir -p /var/log/sympa
+chown syslog:adm /var/log/sympa
 
-exec /usr/sbin/rsyslogd -n 2>&1
+exec /usr/sbin/rsyslogd -n

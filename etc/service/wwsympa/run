@@ -4,6 +4,6 @@
 sleep 10
 
 export FCGI_SOCKET_PATH="127.0.0.1:9000"
-echo fastcgi_pass "127.0.0.1:9000;" > /etc/nginx/fastcgi_host
 
-exec chpst -u sympa:sympa /usr/lib/cgi-bin/sympa/wwsympa.fcgi 2>&1
+# All output is logged to /var/log/sympa/sympa.log so we redirect stdout and stderr to /dev/null.
+exec chpst -u sympa:sympa /usr/lib/cgi-bin/sympa/wwsympa.fcgi >/dev/null 2>&1

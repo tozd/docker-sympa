@@ -28,7 +28,7 @@ Available as:
 ## Description
 
 Docker image providing [Sympa](https://www.sympa.org/) mailing list service.
-When the container runs Sympa is available at `/sympa/` and `/lists/` URLs.
+When the container runs Sympa is available at `/lists/` (and `/sympa/`) URLs.
 
 You should make sure you mount spool and data volumes (`/var/spool/sympa` and `/var/lib/sympa` from this image
 and `/var/spool/nullmailer` from `tozd/nginx-mailer`) so that you do not lose e-mails and mailing lists data
