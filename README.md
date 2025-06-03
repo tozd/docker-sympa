@@ -13,7 +13,7 @@ Available as:
 
 ## Tags
 
-- `latest`: Sympa 6.2.66
+- `latest`: Sympa 6.2.70
 
 ## Volumes
 

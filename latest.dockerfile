@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/tozd/docker/nginx-mailer:ubuntu-jammy
+FROM registry.gitlab.com/tozd/docker/nginx-mailer:ubuntu-noble
 
 VOLUME /var/log/sympa
 VOLUME /etc/sympa/includes
@@ -7,7 +7,7 @@ VOLUME /var/spool/sympa
 VOLUME /var/lib/sympa
 
 # We install recommended Sympa packages manually to control what gets installed.
-# We first install dbconfig-sqlite3  so that during instalation it initializes a database into a file.
+# We first install dbconfig-sqlite3  so that during installation it initializes a database into a file.
 # Later on we replace it with dbconfig-pgsql.
 RUN apt-get update -q -q && \
   touch /etc/aliases && \
