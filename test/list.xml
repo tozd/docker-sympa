@@ -1,21 +1,19 @@
 <?xml version="1.0" ?>
-<family>
-    <list>
-        <listname>example</listname>
-        <type>discussion_list</type>
-        <subject>a list example</subject>
-        <description/>
-        <status>open</status>
-        <shared_edit>editor</shared_edit>
-        <shared_read>private</shared_read>
-        <language>en</language>
-        <owner multiple="1">
-            <email>admin@example.com</email>
-            <gecos>admin</gecos>
-        </owner>
-        <editor multiple="1">
-            <email>>admin@example.com</email>
-        </editor>
-        <topic>Computing</topic>
-    </list>
-</family>
+<list>
+    <listname>example</listname>
+    <type>discussion_list</type>
+    <subject>a list example</subject>
+    <description/>
+    <status>open</status>
+    <shared_edit>editor</shared_edit>
+    <shared_read>private</shared_read>
+    <language>en</language>
+    <owner multiple="1">
+        <email>admin@example.com</email>
+        <gecos>admin</gecos>
+    </owner>
+    <editor multiple="1">
+        <email>>admin@example.com</email>
+    </editor>
+    <topic>Computing</topic>
+</list>
