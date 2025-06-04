@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+trap 'echo "ERROR: $BASH_SOURCE:$LINENO $BASH_COMMAND" >&2' ERR
+
 chown -Rh :sympa /etc/sympa/*
 chown -Rh sympa:sympa /var/lib/sympa /var/spool/sympa
 chmod 771 /var/spool/sympa

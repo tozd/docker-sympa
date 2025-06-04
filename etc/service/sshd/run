@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+trap 'echo "ERROR: $BASH_SOURCE:$LINENO $BASH_COMMAND" >&2' ERR
+
 mkdir -p /var/run/sshd
 
 exec /usr/sbin/sshd -D -e 2>&1
