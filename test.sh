@@ -78,7 +78,7 @@ echo "Testing mailing list"
 # We create example@example.com mailing list.
 docker exec sympa chpst -u sympa:sympa /usr/lib/sympa/bin/sympa.pl --create_list --robot example.com --input_file=/etc/sympa/shared/list.xml
 # We subscribe user@example.com to the mailing list.
-echo "user@example.com" | docker exec -i sympa chpst -u sympa:sympa /usr/lib/sympa/bin/sympa.pl --import=example@example.com
+echo "user@example.com" | docker exec -i sympa chpst -u sympa:sympa /usr/lib/sympa/bin/sympa.pl --add=example@example.com
 # We send over SSH a mail to the mailing list (like postfix would do).
 /bin/echo -e "Subject: test\nFrom: user@example.com\nTo: example@example.com\nMessage-ID: 123@example.com" | docker run -i --rm --network testnet -v "$(pwd)/test:/root/.ssh" docker:23-cli ssh -T sympa@sympa queue example@example.com
 
