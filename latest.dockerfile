@@ -42,13 +42,4 @@ RUN apt-get update -q -q && \
   apt-get --yes --force-yes --autoremove purge patch && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
 
-COPY ./etc/nginx /etc/nginx
-COPY ./etc/service/rsyslog /etc/service/rsyslog
-COPY ./etc/service/sshd /etc/service/sshd
-COPY ./etc/service/sympa_archived /etc/service/sympa_archived
-COPY ./etc/service/sympa_bounced /etc/service/sympa_bounced
-COPY ./etc/service/sympa_bulk /etc/service/sympa_bulk
-COPY ./etc/service/sympa_msg /etc/service/sympa_msg
-COPY ./etc/service/sympa_task_manager /etc/service/sympa_task_manager
-COPY ./etc/service/wwsympa /etc/service/wwsympa
-COPY ./etc/sympa /etc/sympa
+COPY ./etc /etc
